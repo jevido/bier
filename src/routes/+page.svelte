@@ -95,7 +95,7 @@
 </script>
 
 <svelte:head>
-	<title>BIER!</title>
+	<title>Little Drank Giant</title>
 </svelte:head>
 
 <div class="bg-background min-h-screen">
@@ -128,7 +128,12 @@
 						<Search
 							class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
 						/>
-						<Input placeholder="Search beers..." bind:value={searchTerm} class="pl-10" />
+						<Input
+							bind:value={searchTerm}
+							onkeyup={() => (currentPage = 1)}
+							placeholder="Search beers..."
+							class="pl-10"
+						/>
 					</div>
 
 					<div class="flex flex-wrap gap-2">
