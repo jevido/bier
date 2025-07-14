@@ -10,30 +10,6 @@
 
 	let { data } = $props();
 
-	// replace this with the data.beers
-	const generateMockBeers = () => {
-		const beerTypes = ['IPA', 'Lager', 'Stout', 'Wheat', 'Pilsner', 'Porter', 'Ale', 'Sour'];
-		const breweries = [
-			'Heineken',
-			'Stella Artois',
-			'Corona',
-			'Budweiser',
-			'Guinness',
-			"Beck's",
-			'Carlsberg'
-		];
-
-		return Array.from({ length: 1867 }, (_, i) => ({
-			id: i + 1,
-			title: `${breweries[i % breweries.length]} ${beerTypes[i % beerTypes.length]} ${i + 1}`,
-			link: `https://drank-gigant.nl/beer/${i + 1}`,
-			img: `/placeholder.svg?height=200&width=200`,
-			price: (Math.random() * 15 + 2).toFixed(2),
-			createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString()
-		}));
-		``;
-	};
-
 	// browser
 	const beers = data.beers;
 
@@ -263,7 +239,7 @@
 			<div class="mt-8 flex items-center justify-center gap-2">
 				<Button
 					variant="outline"
-					onclick={() => (currentPage = (p) => Math.max(1, p - 1))}
+					onclick={() => (currentPage = Math.max(1, currentPage - 1))}
 					disabled={currentPage === 1}
 				>
 					Previous
@@ -297,7 +273,7 @@
 
 				<Button
 					variant="outline"
-					onclick={() => (currentPage = (p) => Math.min(totalPages, p + 1))}
+					onclick={() => (currentPage = Math.min(totalPages, currentPage + 1))}
 					disabled={currentPage === totalPages}
 				>
 					Next

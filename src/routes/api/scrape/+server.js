@@ -5,6 +5,8 @@ import { eq } from 'drizzle-orm';
 
 const scraped = await scrapeBeers();
 
+exit;
+
 // Insert new beers if not present
 // todo: i'm glad none else uses this site, if i read the performance issues with this
 for (const beer of scraped) {
