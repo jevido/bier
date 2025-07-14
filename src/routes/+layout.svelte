@@ -9,7 +9,7 @@
 
 <ModeWatcher />
 
-<Button onclick={toggleMode} variant="outline" size="icon" class="fixed right-4 bottom-4 size-16">
+<Button onclick={toggleMode} variant="outline" size="icon" class="fixed top-4 right-4 size-8">
 	<Sun
 		class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 !transition-all dark:scale-0 dark:-rotate-90"
 	/>
