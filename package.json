@@ -11,7 +11,7 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check .",
 		"db:start": "docker compose up",
-		"db:push": "drizzle-kit push",
+		"db:push": "drizzle-kit push --yes",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
 		"start": "bun --bun run build/index.js"
