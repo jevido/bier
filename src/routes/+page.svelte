@@ -202,7 +202,8 @@
 				>
 					<div>
 						<Card.Header class="p-4 pb-2">
-							<div class="bg-muted relative aspect-square overflow-hidden rounded-md">
+							<!-- Drankgigant doesn't always have transparant images -->
+							<div class="relative aspect-square overflow-hidden rounded-md bg-white">
 								<img
 									src={beer.img}
 									alt={beer.title}
