@@ -1,11 +1,10 @@
-// ! Do not use svelte here, as the database is also used in cron right now
-
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
+import { DATABASE_URL } from '$env/static/private';
 
-if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
+if (!DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
-const client = postgres(process.env.DATABASE_URL);
+const client = postgres(DATABASE_URL);
 
 export const db = drizzle(client, { schema });

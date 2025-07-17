@@ -1,8 +1,8 @@
 // schedule: 6 6 * * 1
 
-import { db } from '$lib/server/db/';
-import { beers } from '$lib/server/db/schema';
-import { scrapeBeers } from '$lib/scraper';
+import { db, client } from './server/db/index';
+import { beers } from './server/db/schema';
+import { scrapeBeers } from './server/scraper';
 import { eq } from 'drizzle-orm';
 
 // Insert new beers if not present
@@ -21,3 +21,5 @@ for (const beer of scraped) {
 		});
 	}
 }
+
+await client.end();

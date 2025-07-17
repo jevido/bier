@@ -15,8 +15,8 @@
 
 	// State
 	let searchTerm = $state('');
-	let sortBy = $state('title');
-	let sortOrder = $state('asc');
+	let sortBy = $state('createdAt');
+	let sortOrder = $state('desc');
 	let priceRange = $state([0, 20]);
 	let currentPage = $state(1);
 	let itemsPerPage = $state(24);
