@@ -1,4 +1,6 @@
 <script>
+	import { toggleMode } from 'mode-watcher';
+	import { Sun, Moon } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import * as Card from '$lib/components/ui/card';
@@ -102,15 +104,33 @@
 	<!-- Header -->
 	<div class="bg-card border-b">
 		<div class="container mx-auto px-4 py-6">
+			<Button
+				onclick={toggleMode}
+				variant="outline"
+				size="icon"
+				class="absolute top-4 right-4 size-8"
+			>
+				<Sun
+					class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 !transition-all dark:scale-0 dark:-rotate-90"
+				/>
+				<Moon
+					class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 !transition-all dark:scale-100 dark:rotate-0"
+				/>
+				<span class="sr-only">Toggle theme</span>
+			</Button>
+
 			<div class="flex flex-col gap-4">
-				<div class="flex items-center justify-between">
-					<div>
+				<!-- Title and stats stacked on mobile -->
+				<div
+					class="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between"
+				>
+					<div class="text-center sm:text-left">
 						<h1 class="text-3xl font-bold">Beer Browser</h1>
-						<p class="text-muted-foreground">
-							Browse {beers.length.toLocaleString()} beers from Drank Gigant
+						<p class="text-muted-foreground mt-1">
+							Mobile {beers.length.toLocaleString()} beers from Drank Gigant
 						</p>
 					</div>
-					<div class="flex gap-4 text-sm">
+					<div class="flex gap-6 text-center text-sm sm:text-right">
 						<div class="text-center">
 							<div class="font-semibold">€{stats.avg}</div>
 							<div class="text-muted-foreground">Avg Price</div>
@@ -123,8 +143,9 @@
 				</div>
 
 				<!-- Search + filters -->
-				<div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-					<div class="relative max-w-md flex-1">
+				<div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-4 md:grid-cols-4 md:items-end">
+					<!-- Search input -->
+					<div class="relative w-full">
 						<Search
 							class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
 						/>
@@ -132,15 +153,16 @@
 							bind:value={searchTerm}
 							onkeyup={() => (currentPage = 1)}
 							placeholder="Search beers..."
-							class="pl-10"
+							class="w-full pl-10"
 						/>
 					</div>
 
-					<div class="flex flex-wrap gap-2">
+					<!-- Price Range Dropdown -->
+					<div class="w-full">
 						<DropdownMenu.Root>
 							<DropdownMenu.Trigger>
 								{#snippet child({ props })}
-									<Button class="w-36" variant="outline" size="sm" {...props}>
+									<Button variant="outline" size="sm" class="w-full" {...props}>
 										<ListFilterPlus class="mr-2 h-4 w-4" />
 										Price: €{priceRange[0]} - €{priceRange[1]}
 									</Button>
@@ -155,9 +177,12 @@
 								</div>
 							</DropdownMenu.Content>
 						</DropdownMenu.Root>
+					</div>
 
+					<!-- Sort By & Order -->
+					<div class="flex w-full gap-2 sm:flex-row sm:items-center">
 						<Select.Root type="single" bind:value={sortBy}>
-							<Select.Trigger class="w-[180px]">{sortBySelectedValue}</Select.Trigger>
+							<Select.Trigger class="flex-1 sm:w-[180px]">{sortBySelectedValue}</Select.Trigger>
 							<Select.Content>
 								{#each sortByOptions as option}
 									<Select.Item value={option.value}>{option.label}</Select.Item>
@@ -168,13 +193,17 @@
 						<Button
 							variant="outline"
 							size="sm"
+							class="sm:w-auto"
 							onclick={() => (sortOrder = sortOrder === 'asc' ? 'desc' : 'asc')}
 						>
 							<SortAsc class={`h-4 w-4 ${sortOrder === 'desc' ? 'rotate-180' : ''}`} />
 						</Button>
+					</div>
 
+					<!-- Items per page -->
+					<div class="w-full">
 						<Select.Root type="single" bind:value={itemsPerPage}>
-							<Select.Trigger class="w-[180px]">{itemsPerPageSelectedValue}</Select.Trigger>
+							<Select.Trigger class="w-full">{itemsPerPageSelectedValue}</Select.Trigger>
 							<Select.Content>
 								{#each itemsPerPageOptions as option}
 									<Select.Item value={option.value}>{option.label}</Select.Item>
@@ -205,27 +234,25 @@
 				<Card.Root
 					class="group flex h-full flex-col justify-between transition-shadow hover:shadow-lg"
 				>
-					<div>
-						<Card.Header class="p-4 pb-2">
-							<!-- Drankgigant doesn't always have transparant images -->
-							<div class="relative aspect-square overflow-hidden rounded-md bg-white">
-								<img
-									src={beer.img}
-									alt={beer.title}
-									class="h-full w-full object-contain transition-transform group-hover:scale-105"
-								/>
-							</div>
-						</Card.Header>
-						<Card.Content class="p-4 pt-2">
-							<h3 class="mb-2 line-clamp-2 text-sm font-semibold">{beer.title}</h3>
-							<div class="text-muted-foreground mb-2 flex items-center justify-between text-sm">
-								<span class="flex items-center gap-1">€{beer.price}</span>
-								<span class="flex items-center gap-1">
-									<Calendar class="h-3 w-3" />{new Date(beer.createdAt).toLocaleDateString()}
-								</span>
-							</div>
-						</Card.Content>
-					</div>
+					<Card.Header class="p-4 pb-2">
+						<!-- Drankgigant doesn't always have transparant images -->
+						<div class="relative aspect-square overflow-hidden rounded-md bg-white">
+							<img
+								src={beer.img}
+								alt={beer.title}
+								class="h-full w-full object-contain transition-transform group-hover:scale-105"
+							/>
+						</div>
+					</Card.Header>
+					<Card.Content class="p-4 pt-2">
+						<h3 class="mb-2 line-clamp-2 text-sm font-semibold">{beer.title}</h3>
+						<div class="text-muted-foreground mb-2 flex items-center justify-between text-sm">
+							<span class="flex items-center gap-1">€{beer.price}</span>
+							<span class="flex items-center gap-1">
+								<Calendar class="h-3 w-3" />{new Date(beer.createdAt).toLocaleDateString()}
+							</span>
+						</div>
+					</Card.Content>
 					<Card.Footer class="mt-auto p-4 pt-0">
 						<Button
 							href={beer.link}

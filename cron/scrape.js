@@ -9,6 +9,8 @@ import { eq } from 'drizzle-orm';
 // todo: i'm glad none else uses this site, if i read the performance issues with this
 const scraped = await scrapeBeers();
 
+// Todo: update prices
+// Todo: archive beers that were removed
 for (const beer of scraped) {
 	const existing = await db.select().from(beers).where(eq(beers.link, beer.link));
 	if (!existing.length > 0) {
