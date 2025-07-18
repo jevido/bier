@@ -127,7 +127,7 @@
 					<div class="text-center sm:text-left">
 						<h1 class="text-3xl font-bold">Beer Browser</h1>
 						<p class="text-muted-foreground mt-1">
-							Mobile {beers.length.toLocaleString()} beers from Drank Gigant
+							Browse {beers.length.toLocaleString()} beers from Drank Gigant
 						</p>
 					</div>
 					<div class="flex gap-6 text-center text-sm sm:text-right">
