@@ -1,4 +1,4 @@
-// schedule: 6 6 * * 1
+// schedule: 6 6 * * *
 
 import { db, client } from './server/db/index';
 import { beers } from './server/db/schema';
